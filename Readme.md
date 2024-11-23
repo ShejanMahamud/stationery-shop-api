@@ -178,7 +178,7 @@ npm run dev
 ### **6. Access the API**
 
 - Base URL: `http://localhost:3000`
-- Swagger Docs: `http://localhost:3000/api-docs`
+- Postman Docs: `https://documenter.getpostman.com/view/37066424/2sAYBUCsB4#4681a19a-b48c-4e48-8980-de6dbcc1f431`
 
 ---
 

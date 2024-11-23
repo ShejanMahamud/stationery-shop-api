@@ -136,7 +136,6 @@ An Express.js application with TypeScript for managing a Stationery Shop. The AP
 - **Database:** [MongoDB](https://www.mongodb.com/)
 - **ODM:** [Mongoose](https://mongoosejs.com/)
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
-- **API Documentation:** Swagger/OpenAPI
 
 ---
 

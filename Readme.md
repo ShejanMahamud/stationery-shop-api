@@ -1,173 +1,220 @@
-# Express TypeScript Starter CLI 🚀
+# **Stationery Shop API**
 
-[![NPM Version](https://img.shields.io/npm/v/express-ts-starter-cli.svg)](https://www.npmjs.com/package/express-ts-starter-cli)
-
-[![License](https://img.shields.io/npm/l/express-ts-starter-cli.svg)](https://github.com/shejanmahamud/express-ts-starter-cli/blob/main/LICENSE)
-
-[![Downloads](https://img.shields.io/npm/dt/express-ts-starter-cli.svg)](https://www.npmjs.com/package/express-ts-starter-cli)
-
-A powerful and easy-to-use CLI tool to kickstart your **Express.js + TypeScript + Mongoose(Default)** projects in seconds. Save time and focus on building amazing features without worrying about the boilerplate!
+An Express.js application with TypeScript for managing a Stationery Shop. The API integrates MongoDB using Mongoose for data storage and provides features to manage stationery products and orders. It ensures data validation and includes robust error handling.
 
 ---
 
-## ✨ Features
+## **Features**
 
-- **TypeScript Support**: Get started with a fully typed Express.js project.
-
-- **Mongoose Integration**: Built-in support for MongoDB with Mongoose models.
-
-- **Customizable Templates**: Generate projects tailored to your needs.
-
-- **Zero Hassle**: Pre-configured with best practices like `eslint` and `prettier`.
-
-- **Scalable Structure**: Designed for small to large projects.
-
-- **Interactive CLI**: Guides you through the setup with a beautiful and intuitive interface.
+- **Stationery Product Management:**
+  - Create, read, update, and delete stationery products.
+  - Search products by name, brand, or category.
+- **Order Management:**
+  - Place orders for stationery products.
+  - Update product inventory and manage stock availability.
+  - Handle insufficient stock scenarios gracefully.
+- **Revenue Calculation:**
+  - Calculate total revenue from all orders using MongoDB aggregation.
+- **Data Validation:**
+  - Schema-based validation for products and orders.
+  - Handles invalid data and returns user-friendly error messages.
 
 ---
 
-## 🚀 Installation
+## **API Endpoints**
 
-Install the CLI globally via npm:
+### **1. Stationery Product Endpoints**
+
+#### **Create a Product**
+
+- **Endpoint:** `POST /api/products`
+- **Request Body:**
+  ```json
+  {
+    "name": "Notebook",
+    "brand": "Moleskine",
+    "price": 15,
+    "category": "Office Supplies",
+    "description": "A high-quality notebook for professionals.",
+    "quantity": 200,
+    "inStock": true
+  }
+  ```
+- **Response:**
+  - Success message with product details.
+  - Handles validation errors for required fields and invalid data types.
+
+---
+
+#### **Get All Products**
+
+- **Endpoint:** `GET /api/products`
+- **Query:** `searchTerm` (optional - `name`, `brand`, `category`)
+- **Response:**
+  ```json
+  {
+    "message": "Products retrieved successfully",
+    "status": true,
+    "data": [
+      // List of products
+    ]
+  }
+  ```
+
+---
+
+#### **Get a Product by ID**
+
+- **Endpoint:** `GET /api/products/:productId`
+- **Response:** Success message with the product details or a 404 error if not found.
+
+---
+
+#### **Update a Product**
+
+- **Endpoint:** `PUT /api/products/:productId`
+- **Request Body:** Fields to update (e.g., `price`, `quantity`).
+- **Response:**
+  ```json
+  {
+    "message": "Product updated successfully",
+    "status": true,
+    "data": {
+      // Updated product details
+    }
+  }
+  ```
+
+---
+
+#### **Delete a Product**
+
+- **Endpoint:** `DELETE /api/products/:productId`
+- **Response:** Success message confirming deletion.
+
+---
+
+### **2. Order Endpoints**
+
+#### **Place an Order**
+
+- **Endpoint:** `POST /api/orders`
+- **Request Body:**
+  ```json
+  {
+    "email": "customer@example.com",
+    "product": "648a45e5f0123c45678d9012",
+    "quantity": 2,
+    "totalPrice": 36
+  }
+  ```
+- **Response:**
+  - Success message with order details.
+  - Validates inventory availability before placing the order.
+
+---
+
+#### **Calculate Total Revenue**
+
+- **Endpoint:** `GET /api/orders/revenue`
+- **Response:**
+  ```json
+  {
+    "message": "Revenue calculated successfully",
+    "status": true,
+    "data": {
+      "totalRevenue": 720
+    }
+  }
+  ```
+
+---
+
+## **Technologies Used**
+
+- **Backend Framework:** [Express.js](https://expressjs.com/)
+- **Database:** [MongoDB](https://www.mongodb.com/)
+- **ODM:** [Mongoose](https://mongoosejs.com/)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **API Documentation:** Swagger/OpenAPI
+
+---
+
+## **Setup Instructions**
+
+### **1. Prerequisites**
+
+- Node.js installed on your system (v16+ recommended).
+- MongoDB instance running locally or on the cloud.
+- Git for version control.
+
+### **2. Clone the Repository**
 
 ```bash
-
-npm  install  -g  express-ts-starter-cli
-
+git clone https://github.com/ShejanMahamud/stationery-shop-api.git
+cd stationery-shop-api
 ```
 
-or
+### **3. Install Dependencies**
 
 ```bash
-npx express-ts-starter-cli
-
+npm install
 ```
 
----
+### **4. Environment Variables**
 
-## 🛠️ Usage
+Create a `.env` file in the project root with the following:
 
-Run the following command to create a new project:
+```
+MONGO_URI=your_mongodb_connection_string
+PORT=3000
+```
+
+### **5. Run the Application**
 
 ```bash
-
-express-ts-starter
-
-```
-
-The CLI will guide you through the setup with options like:
-
-- Choosing a project name
-
-- Setting up environment variables
-
----
-
-## 🗂️ Project Structure
-
-The generated project will have the following structure:
-
-```
-
-my-express-project/
-
-├── src/
-│ ├── app/
-│   ├── app.ts
-│   ├── server.ts
-│ ├── middlewares/
-| ├── controllers/
-│ ├── routes/
-│ ├── models/
-│ ├── helpers/
-│ ├── types/
-│ ├── utils/
-├── .prettierrc
-├── .eslint.config.mjs
-├── .env
-├── package.json
-└── tsconfig.json
-
-```
-
-### Key Features
-
-- **Controllers**: Keep your logic modular and organized.
-
-- **Models**: Keep your mongoose models here.
-
-- **Helpers**: Keep your helpers function here.
-
-- **Routes**: Define application endpoints cleanly.
-
-- **Middleware**: Add custom Express middlewares effortlessly.
-
-- **Types**: Keep your typescript types here.
-
-- **Utils**: Keep your utility functions here.
-
----
-
-## 📦 What’s Included?
-
-When you use the CLI, you'll get:
-
-- **TypeScript Config**: Pre-configured `tsconfig.json` for seamless development.
-
-- **Express Setup**: Pre-configured `expressjs` .
-
-- **Environment Management**: `.env` file support for configuration.
-
-- **Mongoose Models**: Boilerplate for defining schemas and connecting to MongoDB.
-
----
-
-## 🌟 Why Choose This Starter?
-
-- **Time-Saving**: Set up your project in seconds.
-
-- **Best Practices**: Industry-standard configurations for scalability and maintainability.
-
-- **Community-Driven**: Actively maintained and improved.
-
-- **MongoDB Ready**: Jumpstart your database integration with Mongoose.
-
----
-
-## 🧪 Example
-
-To test if everything is working, run the development server:
-
-```bash
-
 npm run dev
-
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser. You’ll see a welcoming API response!
+### **6. Access the API**
+
+- Base URL: `http://localhost:3000`
+- Swagger Docs: `http://localhost:3000/api-docs`
 
 ---
 
-## 🤝 Contributing
+## **Error Handling**
 
-Contributions are welcome! Feel free to:
+- **Validation Errors:** Ensures all required fields are provided and valid.
+- **Resource Not Found:** Returns a 404 error for missing products or orders.
+- **Generic Errors:** Returns a standard error response with a stack trace for debugging.
 
-- Open issues for feature requests or bugs.
+Example Error Response:
 
-- Submit pull requests to improve the CLI.
+```json
+{
+  "message": "Validation failed",
+  "success": false,
+  "error": {
+    "name": "ValidationError",
+    "errors": {
+      "price": {
+        "message": "Price must be a positive number",
+        "name": "ValidatorError"
+      }
+    }
+  },
+  "stack": "Error: Validation failed..."
+}
+```
 
 ---
 
-## 📄 License
+## **Testing**
 
-This project is licensed under the [MIT License](./LICENSE).
+- Use Postman or any API client to test endpoints.
+- Mock data is included in the project for testing purposes.
 
----
+## **Live Demo**
 
-## 🙋 Support
-
-If you encounter any issues or have questions, feel free to open an issue on [GitHub](https://github.com/ShejanMahamud/express-ts-starter-cli/issues).
-
----
-
-> Made with ❤️ by [Shejan Mahamud](https://github.com/ShejanMahamud).
+Access the live deployment: [Stationery Shop API](https://stationery-shop-api.vercel.app)
